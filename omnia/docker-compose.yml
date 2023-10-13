@@ -1,40 +1,40 @@
 version: '3'
 services:
-  geth:
-    container_name: geth.local
-    build:
-      context: "."
-      dockerfile: "docker/geth/Dockerfile"
-    ports:
-      - "8545:8545"
-      - "30303:30303"
-    volumes:
-      # - "./docker/geth/data:/home/geth/data"
-      - "./docker/geth/config:/home/geth/config"
-      - "./docker/keystore:/home/geth/keystore"
-    command:
-      - "--datadir=/home/geth/data"
-      - "--keystore=/home/geth/keystore"
-      - "--password=/home/geth/keystore/password"
-      - "--allow-insecure-unlock"
-      - "--unlock=0x1bb90cde8a032cb4963813a5b4db4981afa5b9c6,0xfadad77b3a7e5a84a1f7ded081e785585d4ffaf3,0x3980aa37f838bec2e457445d943feb3af98ff036"
-      - "--networkid=99"
-      - "--lightkdf"
-      - "--nodiscover"
-      - "--maxpeers=0"
-      - "--port=0"
-      - "--nousb"
-      - "--ipcdisable"
-      - "--mine"
-      - "--miner.threads=1"
-      - "--miner.etherbase=0x1bb90cde8a032cb4963813a5b4db4981afa5b9c6"
-      - "--http"
-      - "--http.addr=0.0.0.0"
-      - "--http.port=8545"
-      - "--http.api=admin,personal,eth,miner,debug,txpool,net,web3"
-      - "--http.corsdomain=*"
-      - "--http.vhosts=*"
-      - "--rpc.allow-unprotected-txs"
+#  geth:
+#    container_name: geth.local
+#    build:
+#      context: "."
+#      dockerfile: "docker/geth/Dockerfile"
+#    ports:
+#      - "8545:8545"
+#      - "30303:30303"
+#    volumes:
+#      # - "./docker/geth/data:/home/geth/data"
+#      - "./docker/geth/config:/home/geth/config"
+#      - "./docker/keystore:/home/geth/keystore"
+#    command:
+#      - "--datadir=/home/geth/data"
+#      - "--keystore=/home/geth/keystore"
+#      - "--password=/home/geth/keystore/password"
+#      - "--allow-insecure-unlock"
+#      - "--unlock=0x1bb90cde8a032cb4963813a5b4db4981afa5b9c6,0xfadad77b3a7e5a84a1f7ded081e785585d4ffaf3,0x3980aa37f838bec2e457445d943feb3af98ff036"
+#      - "--networkid=99"
+#      - "--lightkdf"
+#      - "--nodiscover"
+#      - "--maxpeers=0"
+#      - "--port=0"
+#      - "--nousb"
+#      - "--ipcdisable"
+#      - "--mine"
+#      - "--miner.threads=1"
+#      - "--miner.etherbase=0x1bb90cde8a032cb4963813a5b4db4981afa5b9c6"
+#      - "--http"
+#      - "--http.addr=0.0.0.0"
+#      - "--http.port=8545"
+#      - "--http.api=admin,personal,eth,miner,debug,txpool,net,web3"
+#      - "--http.corsdomain=*"
+#      - "--http.vhosts=*"
+#      - "--rpc.allow-unprotected-txs"
 
   # deployer:
   #   build:
@@ -53,11 +53,11 @@ services:
 #      - "./docker/ssb-server/config/feed_config.json:/root/.ssb/config"
 #      - "./docker/ssb-server/config/feed_secret:/root/.ssb/secret"
 
-  ssb_server_relay:
-    container_name: ssb-relay.local
-    image: ghcr.io/chronicleprotocol/ssb_server:${DOCKER_SSB_IMAGE_VERSION:-latest}
-    ports:
-      - "8002:8000"
+#  ssb_server_relay:
+#    container_name: ssb-relay.local
+#    image: ghcr.io/chronicleprotocol/ssb_server:${DOCKER_SSB_IMAGE_VERSION:-latest}
+#    ports:
+#      - "8002:8000"
 #    volumes:
 #      - "./docker/ssb-server/config/relay_config.json:/root/.ssb/config"
 #      - "./docker/ssb-server/config/relay_secret:/root/.ssb/secret"
@@ -90,24 +90,24 @@ services:
       CFG_SPIRE_RPC_ADDR: "0.0.0.0:9101"
       CFG_FEEDS: "0x1bb90cde8a032cb4963813a5b4db4981afa5b9c6,0xfadad77b3a7e5a84a1f7ded081e785585d4ffaf3,0x3980aa37f838bec2e457445d943feb3af98ff036"
 
-  spire_relay:
-    image: ghcr.io/chronicleprotocol/spire:${DOCKER_IMAGE_VERSION:-latest}
-    container_name: spire_relay.local
-    depends_on:
-      - spire_feed
-    ports:
-      - "8102:8102"
-      - "9102:9102"
-    volumes:
-      - "./docker/keystore:/root/keystore"
-    environment:
-      CFG_ETH_FROM: "0x3980aa37f838bec2e457445d943feb3af98ff036"
-      CFG_ETH_KEYS: "/root/keystore"
-      CFG_ETH_PASS: "/root/keystore/password"
-      CFG_LIBP2P_LISTEN_ADDRS: "/ip4/0.0.0.0/tcp/8102"
-      CFG_SPIRE_RPC_ADDR: "0.0.0.0:9102"
-      CFG_LIBP2P_BOOTSTRAP_ADDRS: "/dns4/spire_feed.local/tcp/8101/p2p/12D3KooWJ97nwcSoWVQJ7o6BuuBqGtY8xaFbPCptfwo1b2f8cr3o"
-      CFG_FEEDS: "0x1bb90cde8a032cb4963813a5b4db4981afa5b9c6,0xfadad77b3a7e5a84a1f7ded081e785585d4ffaf3,0x3980aa37f838bec2e457445d943feb3af98ff036"
+#  spire_relay:
+#    image: ghcr.io/chronicleprotocol/spire:${DOCKER_IMAGE_VERSION:-latest}
+#    container_name: spire_relay.local
+#    depends_on:
+#      - spire_feed
+#    ports:
+#      - "8102:8102"
+#      - "9102:9102"
+#    volumes:
+#      - "./docker/keystore:/root/keystore"
+#    environment:
+#      CFG_ETH_FROM: "0x3980aa37f838bec2e457445d943feb3af98ff036"
+#      CFG_ETH_KEYS: "/root/keystore"
+#      CFG_ETH_PASS: "/root/keystore/password"
+#      CFG_LIBP2P_LISTEN_ADDRS: "/ip4/0.0.0.0/tcp/8102"
+#      CFG_SPIRE_RPC_ADDR: "0.0.0.0:9102"
+#      CFG_LIBP2P_BOOTSTRAP_ADDRS: "/dns4/spire_feed.local/tcp/8101/p2p/12D3KooWJ97nwcSoWVQJ7o6BuuBqGtY8xaFbPCptfwo1b2f8cr3o"
+#      CFG_FEEDS: "0x1bb90cde8a032cb4963813a5b4db4981afa5b9c6,0xfadad77b3a7e5a84a1f7ded081e785585d4ffaf3,0x3980aa37f838bec2e457445d943feb3af98ff036"
 
   omnia_feed:
     depends_on:
@@ -154,41 +154,41 @@ services:
         }
 #      OMNIA_LOG_FORMAT: "json"
 
-  omnia_relay:
-    depends_on:
-      - geth
-      - spire_relay
-      - ssb_server_relay
-    image: ghcr.io/chronicleprotocol/omnia_relay:${DOCKER_IMAGE_VERSION:-latest}
-    build:
-      context: "."
-    volumes:
-      - "./bin:/opt/omnia/bin"
-      - "./lib:/opt/omnia/lib"
-      - "./exec:/opt/omnia/exec"
-      - "./test:/opt/omnia/test"
-
-      - "../dapptools/src/seth/:/opt/seth/"
-
-      - "./config/relay.json:/home/omnia/omnia.json"
-      - "./docker/spire/config/client.hcl:/home/omnia/spire.hcl"
-
-      - "./docker/keystore/:/home/omnia/.ethereum/keystore/"
-      - "./docker/ssb-server/config/relay_config.json:/home/omnia/.ssb/config"
-      - "./docker/ssb-server/config/relay_secret:/home/omnia/.ssb/secret"
-    environment:
-      ETH_RPC_URL: "http://geth.local:8545"
-      ETH_FROM: "0x1bb90cde8a032cb4963813a5b4db4981afa5b9c6"
-      ETH_GAS_SOURCE: "node"
-      ETH_MAXPRICE_MULTIPLIER: 1
-
-      SSB_KEYS: "/home/omnia/.ssb/secret"
-      SSB_CONF: "/home/omnia/.ssb/config"
-      SSB_HOST: "ssb-relay.local"
-      SSB_PORT: "8000"
-      OMNIA_VERBOSE: "true"
-      SPIRE_CONFIG: "/home/omnia/spire.hcl"
-      CFG_SPIRE_RPC_ADDR: "spire_feed.local:9102"
+#  omnia_relay:
+#    depends_on:
+#      - geth
+#      - spire_relay
+#      - ssb_server_relay
+#    image: ghcr.io/chronicleprotocol/omnia_relay:${DOCKER_IMAGE_VERSION:-latest}
+#    build:
+#      context: "."
+#    volumes:
+#      - "./bin:/opt/omnia/bin"
+#      - "./lib:/opt/omnia/lib"
+#      - "./exec:/opt/omnia/exec"
+#      - "./test:/opt/omnia/test"
+#
+#      - "../dapptools/src/seth/:/opt/seth/"
+#
+#      - "./config/relay.json:/home/omnia/omnia.json"
+#      - "./docker/spire/config/client.hcl:/home/omnia/spire.hcl"
+#
+#      - "./docker/keystore/:/home/omnia/.ethereum/keystore/"
+#      - "./docker/ssb-server/config/relay_config.json:/home/omnia/.ssb/config"
+#      - "./docker/ssb-server/config/relay_secret:/home/omnia/.ssb/secret"
+#    environment:
+#      ETH_RPC_URL: "http://geth.local:8545"
+#      ETH_FROM: "0x1bb90cde8a032cb4963813a5b4db4981afa5b9c6"
+#      ETH_GAS_SOURCE: "node"
+#      ETH_MAXPRICE_MULTIPLIER: 1
+#
+#      SSB_KEYS: "/home/omnia/.ssb/secret"
+#      SSB_CONF: "/home/omnia/.ssb/config"
+#      SSB_HOST: "ssb-relay.local"
+#      SSB_PORT: "8000"
+#      OMNIA_VERBOSE: "true"
+#      SPIRE_CONFIG: "/home/omnia/spire.hcl"
+#      CFG_SPIRE_RPC_ADDR: "spire_feed.local:9102"
 #      OMNIA_LOG_FORMAT: "json"
 networks:
   default:
