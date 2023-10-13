@@ -13,7 +13,7 @@ RUN git clone https://github.com/chronicleprotocol/omnia.git . \
 
 # Building gofer & spire
 WORKDIR /go/src/oracle-suite
-ARG ORACLE_SUITE_REF="tags/v0.10.0"
+ARG ORACLE_SUITE_REF="tags/v0.22.0"
 RUN git clone https://github.com/chronicleprotocol/oracle-suite.git . \
   && git checkout --quiet ${ORACLE_SUITE_REF}
 
@@ -23,7 +23,7 @@ RUN go mod vendor \
 
 # SSB Go client have been moved to new repo
 WORKDIR /go/src/ssb
-ARG SSB_RPC_CLIENT_REF="tags/v0.1.0"
+ARG SSB_RPC_CLIENT_REF="tags/v0.1.1"
 RUN git clone https://github.com/chronicleprotocol/ssb.git . \
   && git checkout --quiet ${SSB_RPC_CLIENT_REF}
 
