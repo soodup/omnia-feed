@@ -1,0 +1,183 @@
+{
+    "ethereum": {
+    "from": "0xfadad77b3a7e5a84a1f7ded081e785585d4ffaf3",
+    "keystore": "",
+    "password": "",
+    "rpc": "https://ethereum.publicnode.com"
+  },
+  "feeds": [
+    "0xDA1d2961Da837891f43235FddF66BAD26f41368b",
+    "0x4b0E327C08e23dD08cb87Ec994915a5375619aa2",
+    "0x75ef8432566A79C86BBF207A47df3963B8Cf0753",
+    "0x83e23C207a67a9f9cB680ce84869B91473403e7d",
+    "0xFbaF3a7eB4Ec2962bd1847687E56aAEE855F5D00",
+    "0xfeEd00AA3F0845AFE52Df9ECFE372549B74C69D2",
+    "0x71eCFF5261bAA115dcB1D9335c88678324b8A987",
+    "0x8ff6a38A1CD6a42cAac45F08eB0c802253f68dfD",
+    "0x16655369Eb59F3e1cAFBCfAC6D3Dd4001328f747",
+    "0xD09506dAC64aaA718b45346a032F934602e29cca",
+    "0xc00584B271F378A0169dd9e5b165c0945B4fE498",
+    "0x60da93D9903cb7d3eD450D4F81D402f7C4F71dd9",
+    "0xa580BBCB1Cee2BCec4De2Ea870D20a12A964819e",
+    "0xD27Fa2361bC2CfB9A591fb289244C538E190684B",
+    "0x8de9c5F1AC1D4d02bbfC25fD178f5DAA4D5B26dC",
+    "0xE6367a7Da2b20ecB94A25Ef06F3b551baB2682e6",
+    "0xA8EB82456ed9bAE55841529888cDE9152468635A",
+    "0x130431b4560Cd1d74A990AE86C337a33171FF3c6",
+    "0x8aFBD9c3D794eD8DF903b3468f4c4Ea85be953FB",
+    "0xd94BBe83b4a68940839cD151478852d16B3eF891",
+    "0xC9508E9E3Ccf319F5333A5B8c825418ABeC688BA",
+    "0x77EB6CF8d732fe4D92c427fCdd83142DB3B742f7",
+    "0x3CB645a8f10Fb7B0721eaBaE958F77a878441Cb9",
+    "0x4f95d9B4D842B2E2B1d1AC3f2Cf548B93Fd77c67",
+    "0xaC8519b3495d8A3E3E44c041521cF7aC3f8F63B3",
+    "0xd72BA9402E9f3Ff01959D6c841DDD13615FFff42"
+  ],
+  "ghost": {
+    "interval": 60,
+    "pairs": [
+      "BTCUSD",
+      "CRVUSD",
+      "ETHUSD"
+    ]
+  },
+  "gofer": {
+    "ethRpc": "https://ethereum.publicnode.com",
+    "rpc": {
+      "disable": false,
+      "address": "127.0.0.1:9000"
+    },
+    "origins": {
+      "uniswap": {
+        "type": "uniswap",
+        "name": "uniswap",
+        "params": {
+          "symbolAliases": {
+            "ETH": "WETH",
+            "BTC": "WBTC",
+            "USD": "USDC"
+          },
+          "contracts": {
+            "AAVE/WETH": "0xdfc14d2af169b0d36c4eff567ada9b2e0cae044f",
+            "BAT/WETH": "0xa70d458a4d9bc0e6571565faee18a48da5c0d593",
+            "SNX/WETH": "0x43ae24960e5534731fc831386c07755a2dc33d47",
+            "COMP/WETH": "0xcffdded873554f362ac02f8fb1f02e5ada10516f",
+            "WETH/USDC": "0xb4e16d0168e52d35cacd2c6185b44281ec28c9dc",
+            "KNC/WETH": "0xf49c43ae0faf37217bdcb00df478cf793edd6687",
+            "LEND/WETH": "0xab3f9bf1d81ddb224a2014e98b238638824bcf20",
+            "LRC/WETH": "0x8878df9e1a7c87dcbf6d3999d997f262c05d8c70",
+            "PAXG/WETH": "0x9c4fe5ffd9a9fc5678cfbd93aa2d4fd684b67c4c",
+            "BAL/WETH": "0xa70d458a4d9bc0e6571565faee18a48da5c0d593",
+            "YFI/WETH": "0x2fdbadf3c4d5a8666bc06645b8358ab803996e28"
+          }
+        }
+      },
+      "uniswapV3": {
+        "type": "uniswapV3",
+        "name": "uniswapV3",
+        "params": {
+          "symbolAliases": {
+            "ETH": "WETH",
+            "BTC": "WBTC",
+            "USD": "USDC"
+          },
+          "contracts": {
+            "COMP/WETH": "0xea4ba4ce14fdd287f380b55419b1c5b6c3f22ab6",
+            "WETH/CRV": "0x4c83a7f819a5c37d64b4c5a2f8238ea082fa1f4e",
+            "USDC/WETH": "0x88e6a0c2ddd26feeb64f039a2c41296fcb3f5640",
+            "UNI/WETH": "0x1d42064fc4beb5f8aaf85f4617ae8b3b5b8bd801",
+            "WNXM/WETH": "0x058d79a4c6eb5b11d0248993ffa1faa168ddd3c0",
+            "YFI/WETH": "0x04916039b1f59d9745bf6e0a21f191d1e0a84287"
+          }
+        }
+      },
+      "balancer": {
+        "type": "balancer",
+        "name": "balancer",
+        "params": {
+          "contracts": {
+            "BAL/USD": "0xba100000625a3754423978a60c9317c58a424e3d",
+            "AAVE/USD": "0x7fc66500c84a76ad7e9c93437bfc5ac33e2ddae9",
+            "WNXM/USD": "0x0d438f3b5175bebc262bf23753c1e53d03432bde"
+          }
+        }
+      },
+      "bittrex": {
+        "type": "bittrex",
+        "name": "bittrex",
+        "params": {
+          "symbolAliases": {
+            "REP": "REPV2"
+          }
+        }
+      },
+      "sushiswap": {
+        "type": "sushiswap",
+        "name": "sushiswap",
+        "params": {
+          "symbolAliases": {
+            "ETH": "WETH",
+            "BTC": "WBTC",
+            "USD": "USDC"
+          },
+          "contracts": {
+            "SNX/WETH": "0xa1d7b2d891e3a1f9ef4bbc5be20630c2feb1c470",
+            "CRV/WETH": "0x58dc5a51fe44589beb22e8ce67720b5bc5378009"
+          }
+        }
+      },
+      "curve": {
+        "type": "curve",
+        "name": "curve",
+        "params": {
+          "contracts": {
+            "ETH/STETH": "0xDC24316b9AE028F1497c275EB9192a3Ea0f67022"
+          }
+        }
+      },
+      "balancerV2": {
+        "type": "balancerV2",
+        "name": "balancerV2",
+        "params": {
+          "contracts": {
+            "STETH/ETH": "0x32296969ef14eb0c6d29669c550d4a0449130230"
+          }
+        }
+      }
+    },
+    "priceModels": {
+      "ETH/USD": {
+        "method": "median",
+        "sources": [
+          [{ "origin": "bitstamp", "pair": "ETH/USD" }],
+          [{ "origin": "kraken", "pair": "ETH/USD" }],
+          [{ "origin": "uniswapV3", "pair": "ETH/USD" }]
+        ],
+        "params": {
+          "minimumSuccessfulSources": 1
+        }
+      },
+      "BTC/USD": {
+        "method": "median",
+        "sources": [
+          [{ "origin": "kraken", "pair": "BTC/USD" }]
+        ],
+        "params": {
+          "minimumSuccessfulSources": 1
+        }
+      },
+      "CRV/USD": {
+        "method": "median",
+        "sources": [
+          [{ "origin": "gemini", "pair": "CRV/USD" }],
+          [{ "origin": "kraken", "pair": "CRV/USD" }],
+          [{ "origin": "uniswapV3", "pair": "CRV/ETH" },{ "origin": ".", "pair": "ETH/USD" }],
+          [{ "origin": "sushiswap", "pair": "CRV/ETH" },{ "origin": ".", "pair": "ETH/USD" }]
+        ],
+        "params": {
+          "minimumSuccessfulSources": 1
+        }
+      }
+    }
+  }
+}

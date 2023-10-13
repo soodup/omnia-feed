@@ -49,24 +49,29 @@ services:
     image: ghcr.io/chronicleprotocol/ssb_server:${DOCKER_SSB_IMAGE_VERSION:-latest}
     ports:
       - "8001:8000"
-    volumes:
-      - "./docker/ssb-server/config/feed_config.json:/root/.ssb/config"
-      - "./docker/ssb-server/config/feed_secret:/root/.ssb/secret"
+#    volumes:
+#      - "./docker/ssb-server/config/feed_config.json:/root/.ssb/config"
+#      - "./docker/ssb-server/config/feed_secret:/root/.ssb/secret"
 
   ssb_server_relay:
     container_name: ssb-relay.local
     image: ghcr.io/chronicleprotocol/ssb_server:${DOCKER_SSB_IMAGE_VERSION:-latest}
     ports:
       - "8002:8000"
-    volumes:
-      - "./docker/ssb-server/config/relay_config.json:/root/.ssb/config"
-      - "./docker/ssb-server/config/relay_secret:/root/.ssb/secret"
+#    volumes:
+#      - "./docker/ssb-server/config/relay_config.json:/root/.ssb/config"
+#      - "./docker/ssb-server/config/relay_secret:/root/.ssb/secret"
 
   gofer:
     container_name: gofer.local
-    image: ghcr.io/chronicleprotocol/gofer:${DOCKER_IMAGE_VERSION:-latest}
+    image: oracle-suite-gofer:latest
+    volumes:
+      - "./gofer.json/config.json:/root/config.json"
     ports:
-      - "9200:9200"
+      - "9000:9000"
+    tty: true
+    stdin_open: true
+  #    command: [ "agent" ]
 
   spire_feed:
     image: ghcr.io/chronicleprotocol/spire:${DOCKER_IMAGE_VERSION:-latest}
@@ -112,13 +117,14 @@ services:
     image: ghcr.io/chronicleprotocol/omnia_feed:${DOCKER_IMAGE_VERSION:-latest}
     build:
       context: "."
-      args:
-        ORACLE_SUITE_BRANCH: "sc-488/omnia-cannot-communicate-with-transports"
+#      args:
+#        ORACLE_SUITE_BRANCH: "sc-488/omnia-cannot-communicate-with-transports"
     volumes:
       - "./bin:/opt/omnia/bin"
       - "./lib:/opt/omnia/lib"
       - "./exec:/opt/omnia/exec"
       - "./test:/opt/omnia/test"
+      - "../version:/opt/omnia/version"
 
       - "./config/feed.json:/home/omnia/omnia.json"
       - "./docker/spire/config/client.hcl:/home/omnia/spire.hcl"
@@ -126,18 +132,26 @@ services:
 
       - "./docker/keystore/:/home/omnia/.ethereum/keystore/"
       - "./docker/ssb-server/config/feed_config.json:/home/omnia/.ssb/config"
-      - "./docker/ssb-server/config/feed_secret:/home/omnia/.ssb/secret"
+      - "./docker/ssb-server/config/feed_secret/secret:/home/omnia/.ssb/secret"
+      - "./docker/ssb-server/config/secret.json:/home/omnia/secret.json"
+      - "./docker/ssb-server/config/ssb-config.json:/home/omnia/config.json"
 
     environment:
       SSB_KEYS: "/home/omnia/.ssb/secret"
       SSB_CONF: "/home/omnia/.ssb/config"
       SSB_HOST: "ssb-feed.local"
-      SSB_PORT: "8000"
+      SSB_PORT: "8001"
       OMNIA_VERBOSE: "true"
       SPIRE_CONFIG: "/home/omnia/spire.hcl"
       CFG_SPIRE_RPC_ADDR: "spire_feed.local:9101"
       GOFER_CONFIG: "/home/omnia/gofer.hcl"
-      CFG_GOFER_RPC_ADDR: "gofer.local:9200"
+      CFG_GOFER_RPC_ADDR: "gofer.local:9000"
+      OMNIA_DEBUG: "true"
+      SSB_SET_caps: |
+        {
+          "shs": "BRsTikbASMIC6jAvsIbZy24Wd6IpLQ5FbEx1oyooGb8=",
+          "sign": "HOGP1DI4ZybjiHYv7SvaadeSLSnt1MQ2bDo2v7aszh0="
+        }
 #      OMNIA_LOG_FORMAT: "json"
 
   omnia_relay:

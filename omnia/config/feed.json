@@ -14,8 +14,8 @@
     "setzerMinMedian": 3,
     "setzerEthRpcUrl": "http://geth.local:8545"
   },
-  "sources":["gofer","setzer"],
-  "transports":["spire","ssb-rpc"],
+  "sources":["gofer"],
+  "transports":["spire"],
   "pairs": {
     "BTC/USD":{"msgExpiration":300,"msgSpread":0.5},
     "ETH/USD":{"msgExpiration":300,"msgSpread":0.5}
