@@ -67,8 +67,8 @@ readSource() {
 					else
 #						error "no data from source" "app=source-$_src" "asset=$_assetPair"
             sample_value='{
-            	  "asset": "ETH/USD",
-            	  "median": "1000.00",
+            	  "asset": "BTC/USD",
+            	  "median": "45000.00",
             	  "sources": [{"BTC/USD@uniswap": "45000"}]
             	}'
      	      verbose --raw "source-$_src" "$sample_value"

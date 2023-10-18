@@ -1,6 +1,6 @@
 #initialize environment
 initEnv () {
-	OMNIA_VERSION=${OMNIA_VERSION:-"0.0.0-unknown"}
+	OMNIA_VERSION=${OMNIA_VERSION:-"0.0.0-dev.0"}
 
 	#Load Global configuration
 	importEnv || exit 1

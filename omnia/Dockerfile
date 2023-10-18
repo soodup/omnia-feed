@@ -47,9 +47,9 @@ COPY --from=go-builder \
   /go/src/ssb/ssb-rpc-client/ssb-rpc-client \
   /usr/local/bin/
 
-COPY ./omnia/bin /opt/omnia/bin/
-COPY ./omnia/exec /opt/omnia/exec/
-COPY ./omnia/lib /opt/omnia/lib/
+COPY ./bin /opt/omnia/bin/
+COPY ./exec /opt/omnia/exec/
+COPY ./lib /opt/omnia/lib/
 COPY ./version /opt/omnia/version
 
 # Installing setzer
@@ -71,15 +71,15 @@ ENV OMNIA_CONFIG=${HOME}/omnia.json \
   ETH_RPC_URL=http://geth.local:8545 \
   ETH_GAS=7000000
 
-COPY ./omnia/config/feed.json ${OMNIA_CONFIG}
-COPY ./omnia/docker/spire/config/client.hcl ${SPIRE_CONFIG}
-COPY ./omnia/docker/gofer/client.hcl ${GOFER_CONFIG}
+COPY ./config/feed.json ${OMNIA_CONFIG}
+COPY ./docker/spire/config/client.hcl ${SPIRE_CONFIG}
+COPY ./docker/gofer/client.hcl ${GOFER_CONFIG}
 
 WORKDIR ${HOME}
-COPY ./omnia/docker/keystore/ .ethereum/keystore/
-# COPY ./omnia/docker/ssb-server/config/manifest.json .ssb/manifest.json
-# COPY ./omnia/docker/ssb-server/config/secret .ssb/secret
-# COPY ./omnia/docker/ssb-server/config/config.json .ssb/config
+COPY ./docker/keystore/ .ethereum/keystore/
+# COPY ./docker/ssb-server/config/manifest.json .ssb/manifest.json
+# COPY ./docker/ssb-server/config/secret .ssb/secret
+# COPY ./docker/ssb-server/config/config.json .ssb/config
 
 ARG USER=1000
 ARG GROUP=1000
