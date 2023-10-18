@@ -44,11 +44,11 @@ services:
   #     - "./docker/geth/bin/:/root/bin"
   #   command: ["median-deploy", "BATUSD", "BTCUSD", "ETHUSD", "KNCUSD", "MANAUSD", "0x1bb90cde8a032cb4963813a5b4db4981afa5b9c6", "0x3980aa37f838bec2e457445d943feb3af98ff036"]
 
-  ssb_server_feed:
-    container_name: ssb-feed.local
-    image: ghcr.io/chronicleprotocol/ssb_server:${DOCKER_SSB_IMAGE_VERSION:-latest}
-    ports:
-      - "8001:8000"
+#  ssb_server_feed:
+#    container_name: ssb-feed.local
+#    image: ghcr.io/chronicleprotocol/ssb_server:${DOCKER_SSB_IMAGE_VERSION:-latest}
+#    ports:
+#      - "8001:8000"
 #    volumes:
 #      - "./docker/ssb-server/config/feed_config.json:/root/.ssb/config"
 #      - "./docker/ssb-server/config/feed_secret:/root/.ssb/secret"
@@ -74,47 +74,56 @@ services:
   #    command: [ "agent" ]
 
   spire_feed:
-    image: ghcr.io/chronicleprotocol/spire:${DOCKER_IMAGE_VERSION:-latest}
+    image: upshot-spire
     container_name: spire_feed.local
     ports:
-      - "8101:8101"
-      - "9101:9101"
+      - "8101:8000"
+      - "9101:9100"
+    entrypoint: [ "/usr/local/bin/spire" ]
+    command: [ "agent", "-v", "info" ]
     volumes:
-      - "./docker/keystore:/root/keystore"
+      - "./docker/keystore/1.json:/root/keystore/1.json"
+      - "./docker/keystore/pass:/root/keystore/password"
+      - "./docker/spire/config/feed_config.hcl:/root/config.hcl"
     environment:
-      CFG_ETH_FROM: "0xfadad77b3a7e5a84a1f7ded081e785585d4ffaf3"
+      CFG_ETH_FROM: "0x2d800d93b065ce011af83f316cef9f0d005b0aa4"
       CFG_ETH_KEYS: "/root/keystore"
       CFG_ETH_PASS: "/root/keystore/password"
-      CFG_LIBP2P_PK_SEED: "d382e2b16d8a2e770dd8e0b65554a2ce7a072ac67d4ca6f34052771dfdcdac07"
-      CFG_LIBP2P_LISTEN_ADDRS: "/ip4/0.0.0.0/tcp/8101"
+      #      CFG_LIBP2P_PK_SEED: "d382e2b16d8a2e770dd8e0b65554a2ce7a072ac67d4ca6f34052771dfdcdac07"
+      #      CFG_LIBP2P_LISTEN_ADDRS: "/ip4/0.0.0.0/tcp/8101"
       CFG_SPIRE_RPC_ADDR: "0.0.0.0:9101"
-      CFG_FEEDS: "0x1bb90cde8a032cb4963813a5b4db4981afa5b9c6,0xfadad77b3a7e5a84a1f7ded081e785585d4ffaf3,0x3980aa37f838bec2e457445d943feb3af98ff036"
+#      CFG_FEEDS: "0x16655369eb59f3e1cafbcfac6d3dd4001328f747"
 
-#  spire_relay:
-#    image: ghcr.io/chronicleprotocol/spire:${DOCKER_IMAGE_VERSION:-latest}
-#    container_name: spire_relay.local
-#    depends_on:
-#      - spire_feed
-#    ports:
-#      - "8102:8102"
-#      - "9102:9102"
-#    volumes:
-#      - "./docker/keystore:/root/keystore"
-#    environment:
-#      CFG_ETH_FROM: "0x3980aa37f838bec2e457445d943feb3af98ff036"
-#      CFG_ETH_KEYS: "/root/keystore"
-#      CFG_ETH_PASS: "/root/keystore/password"
-#      CFG_LIBP2P_LISTEN_ADDRS: "/ip4/0.0.0.0/tcp/8102"
-#      CFG_SPIRE_RPC_ADDR: "0.0.0.0:9102"
-#      CFG_LIBP2P_BOOTSTRAP_ADDRS: "/dns4/spire_feed.local/tcp/8101/p2p/12D3KooWJ97nwcSoWVQJ7o6BuuBqGtY8xaFbPCptfwo1b2f8cr3o"
-#      CFG_FEEDS: "0x1bb90cde8a032cb4963813a5b4db4981afa5b9c6,0xfadad77b3a7e5a84a1f7ded081e785585d4ffaf3,0x3980aa37f838bec2e457445d943feb3af98ff036"
+  spire_relay:
+    image: upshot-spire
+    container_name: spire_relay.local
+    depends_on:
+      - spire_feed
+    ports:
+      - "8102:8000"
+      - "9102:9100"
+    entrypoint: [ "/usr/local/bin/spire" ]
+    command: [ "agent", "-v", "info" ]
+    volumes:
+      - "./docker/keystore/2.json:/root/keystore/2.json"
+      - "./docker/keystore/pass:/root/keystore/password"
+      - "./docker/spire/config/relay_config.hcl:/root/config.hcl"
+    environment:
+      CFG_ETH_FROM: "0xe3ced0f62f7eb2856d37bed128d2b195712d2644"
+      CFG_ETH_KEYS: "/root/keystore"
+      CFG_ETH_PASS: "/root/keystore/password"
+      #      CFG_LIBP2P_PK_SEED: "d382e2b16d8a2e770dd8e0b65554a2ce7a072ac67d4ca6f34052771dfdcdac07"
+      #      CFG_LIBP2P_LISTEN_ADDRS: "/ip4/0.0.0.0/tcp/8102"
+      CFG_SPIRE_RPC_ADDR: "0.0.0.0:9102"
+#      CFG_LIBP2P_BOOTSTRAP_ADDRS: "/dns/spire_feed.local/tcp/8101/p2p/12D3KooWNy4aQc58BtPcGkVRbbjonrF6NjLs37yab2rSRjeYn9Y2"
+  #      CFG_FEEDS: "0x1bb90cde8a032cb4963813a5b4db4981afa5b9c6,0xfadad77b3a7e5a84a1f7ded081e785585d4ffaf3,0x3980aa37f838bec2e457445d943feb3af98ff036"
 
   omnia_feed:
     depends_on:
       - gofer
       - spire_feed
-      - ssb_server_feed
-    image: ghcr.io/chronicleprotocol/omnia_feed:${DOCKER_IMAGE_VERSION:-latest}
+#      - ssb_server_feed
+    image: upshot-omnia-feed
     build:
       context: "."
 #      args:
@@ -147,11 +156,9 @@ services:
       GOFER_CONFIG: "/home/omnia/gofer.hcl"
       CFG_GOFER_RPC_ADDR: "gofer.local:9000"
       OMNIA_DEBUG: "true"
-      SSB_SET_caps: |
-        {
-          "shs": "BRsTikbASMIC6jAvsIbZy24Wd6IpLQ5FbEx1oyooGb8=",
-          "sign": "HOGP1DI4ZybjiHYv7SvaadeSLSnt1MQ2bDo2v7aszh0="
-        }
+      CFG_ETH_FROM: "0x2d800d93b065ce011af83f316cef9f0d005b0aa4"
+      CFG_ETH_KEYS: "/home/omnia/.ethereum/keystore"
+      CFG_ETH_PASS: "/home/omnia/.ethereum/keystore/pass"
 #      OMNIA_LOG_FORMAT: "json"
 
 #  omnia_relay:

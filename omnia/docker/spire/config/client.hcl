@@ -1,5 +1,5 @@
 variables {
-  feeds = ["0x16655369eb59f3e1cafbcfac6d3dd4001328f747","0xfadad77b3a7e5a84a1f7ded081e785585d4ffaf3","0x3980aa37f838bec2e457445d943feb3af98ff036"]
+  feeds = ["0x16655369eb59f3e1cafbcfac6d3dd4001328f747","0xfadad77b3a7e5a84a1f7ded081e785585d4ffaf3","0x3980aa37f838bec2e457445d943feb3af98ff036","0x2d800d93b065ce011af83f316cef9f0d005b0aa4"]
 }
 
 spire {
