@@ -1,3 +1,11 @@
+# Intro
+- Omnia is an oracle client in bash which has 2 parts -
+  - Omnia feed (responsibility is to pull prices from Gofer/Setzer, signs with private key and publish to transport layer (spire, ssb))
+  - Omnia relay (responsibility is to listen to new messages in the transport layer and include the pricing data and signatures in a single ethereum transaction and publish on chain)
+  
+- Setzer and gofer are on separate repo (gofer written in Golang) and are used to fetch prices from different configured sources. (The responsibility is just to fetch prices)
+- Transport layer is just p2p gossip network layer (spire for libp2p, ssb for scuttlebutt)
+
 # Omnia
 
 [![Omnia Tests](https://github.com/chronicleprotocol/omnia/actions/workflows/test.yml/badge.svg)](https://github.com/chronicleprotocol/omnia/actions/workflows/test.yml)
@@ -27,7 +35,7 @@ Then just `docker-compose build` and `docker-compose up -d`
 
 
 ### Omnia Configuration
-Current environment variables used are defined in the docker-compose.yml.
+Current environment variables used are defined in the `docker-compose.yml`.
 
 Dockerized Omnia default configuration:
 
