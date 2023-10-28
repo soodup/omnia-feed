@@ -1,37 +1,108 @@
 # Intro
-- Omnia is an oracle client in bash which has 2 parts -
-  - Omnia feed (responsibility is to pull prices from Gofer/Setzer, signs with private key and publish to transport layer (spire, ssb))
-  - Omnia relay (responsibility is to listen to new messages in the transport layer and include the pricing data and signatures in a single ethereum transaction and publish on chain)
-  
-- Setzer and gofer are on separate repo (gofer written in Golang) and are used to fetch prices from different configured sources. (The responsibility is just to fetch prices)
+### Omnia
+An oracle client written in bash. It has 2 services feed and relay.
+
+This repository only has the code for omnia feed service.
+
+### Spire / SSB
+P2P gossip network layer. Spire is built on libp2p whereas SSB is built on scuttlebutt.
+
+### Gofer / Setzer
+Tools used to fetch prices from different configured sources like reservoir.
+
+
+    Omnia has 2 parts/services -> feed and relay
+### Omnia feed
+- Responsibility is to pull prices from Gofer/Setzer, sign with private key and publish to transport layer (spire/ssb)
+### Omnia relay 
+- Responsibility is to listen to new messages in the transport layer and include the pricing data and signatures in a single ethereum transaction and publish on chain)
+- This is now separated in a different repo here.
+
+![img.png](img.png)
+
+#### Note
+- Spire, Setzer and gofer are on separate [repo](https://github.com/soodup/oracle-suite/blob/v0.10.0) (gofer and spire are written in Golang) 
 - Transport layer is just p2p gossip network layer (spire for libp2p, ssb for scuttlebutt)
 
-# Omnia
+# Quickstart
+****
+1.) Just `docker-compose build` and `docker-compose up -d` (docker-compose.yml)
+
+2.) Start the spire agent in the docker container terminal by -` spire agent -c '/home/omnia/spire.hcl'`
+
+#### What happens exactly?
+Current docker-compose starts an omnia feed container which has gofer and spire-feed installed.
+
+- `omnia_feed` uses a static JSON defined in "omnia/exec/source-gofer" for now
+  and signs and sends it to gossip network via `spire` over rpc.
+
+- `spire agent` listens and broadcasts this message over the p2p network over tcp.
+
+****
+
+# How to Run
+1.) Change the tag/sha to build and run a specific source for omnia/spire/gofer in the `Dockerfile`
+
+2.)  `docker-compose build` and `docker-compose up -d` (docker-compose.yml)
+
+This will build from `Dockerfile` which downloads a specified tagged source from github and builds all services.
+### Docker Compose Config
+![img_2.png](img_2.png)
+
+- `./config/feed.json` is the main config for our omnia container. This specifies -
+  - `ethereum` -> account address we use to sign the message
+  - `pairs` -> pairs or feeds that are whitelisted
+  - `sources` -> sources we fetch from (like Gofer)
+  - `transports` -> transport we use for gossip network (like spire)
+  - `options.interval` -> cron duration to fetch prices
+
+
+- `./docker/spire/config/feed_config.hcl` is the spire config which will be used by omnia. It specifies -
+  - `feeds` and `spire.pairs` -> whitelisted feeds and pairs that are used to send price updates
+  - `ethereum` -> account address and keys that are used to sign messages over p2p network
+  - `listen_addrs` -> listen over tcp network for other nodes  
+  - `bootstrap_addrs` -> bootstrap some nodes in the network to receive messages and join a gossip network.
+
+
+- `./docker/gofer/client.hcl` is the gofer config which will be used by omnia. It specifies -
+  - `origin` -> the origin to fetch a price pair from (like sushiswap)
+  - `price_model` -> min sources and method to use to fetch each pair (like get median price from 3 origins of BTC/USD)
+
+
+- `./docker/keystore/` contains the signing account address, keys and pass for our oracle client
+  - `CFG_ETH_FROM` -> env variable that defines the address which will be used to sign
+  - `CFG_ETH_KEYS` -> env variable that contains the keys of this address
+  - `CFG_ETH_PASS` -> env variable that contains the password of this address
+  - This account address should be present in the `omnia relayer` container to be whitelisted so it can receive a message from this omnia node
+
+3.) Start the spire agent in the docker container terminal by -` spire agent -c '/home/omnia/spire.hcl'`
+
+#### This will send a sample price to the gossip network every 60 seconds. To run the omnia-relay container to receive this price please run it from here.
+****
+
+
+# How to Dev
+We have `docker-compose-dev.yml` which spins up gofer and spire containers separately instead of running it in embedded mode in omnia container to debug better like the below diagram.
+
+### Source Code
+- Omnia 
+  - `omnia/lib` has the common functions that are used to run omnia feed
+  - `omnia/exec` has the source to trigger commands for other services like gofer fetch, spire push)
+
+- Spire, we need to change and build from [here](https://github.com/soodup/oracle-suite/blob/v0.10.0/docker-compose-spire.yaml
+) (Use Dockerfile-spire)
+
+After we change any source code we can just build and run the particular container and check if it works as expected.
+
+![img_1.png](img_1.png)
+
+# Omnia 
+
 
 [![Omnia Tests](https://github.com/chronicleprotocol/omnia/actions/workflows/test.yml/badge.svg)](https://github.com/chronicleprotocol/omnia/actions/workflows/test.yml)
 [![Build & Push Docker Image](https://github.com/chronicleprotocol/omnia/actions/workflows/docker.yml/badge.svg)](https://github.com/chronicleprotocol/omnia/actions/workflows/docker.yml)
 
 For more information on running oracles see: https://github.com/chronicleprotocol/oracles
-
-
-# Spire
-A peer-to-peer network of nodes for broadcasting signed asset prices over libp2p.
-
-
-## Quickstart
-### Current docker-compose starts an omnia feed container and 2 spire nodes.
-
-- `omnia_feed` uses a static JSON defined in "omnia/exec/source-gofer" for now 
-and signs and sends it to `spire_feed` via rpc. 
-
-- `spire_feed` then broadcasts this message over the p2p network (tcp) and `spire_relay` receives it.
-
-First, we need to build spire image, which can be found here -
-https://github.com/soodup/oracle-suite/blob/v0.10.0/docker-compose-spire.yaml
-(Use Dockerfile-spire)
-
-Then just `docker-compose build` and `docker-compose up -d`
-
 
 
 ### Omnia Configuration

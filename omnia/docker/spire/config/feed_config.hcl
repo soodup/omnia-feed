@@ -5,6 +5,7 @@ variables {
     #    "0xfadad77b3a7e5a84a1f7ded081e785585d4ffaf3",
     #    "0x3980aa37f838bec2e457445d943feb3af98ff036",
     "0x2d800d93b065ce011af83f316cef9f0d005b0aa4",
+    "0x1bb90cde8a032cb4963813a5b4db4981afa5b9c6",
     "0xe3ced0f62f7eb2856d37bed128d2b195712d2644"
   ]
 }
@@ -55,33 +56,6 @@ transport {
     blocked_addrs      = try(split(env.CFG_LIBP2P_BLOCKED_ADDRS, ","), [])
     disable_discovery  = try(env.CFG_LIBP2P_DISABLE_DISCOVERY, "false") == "true"
     ethereum_key       = try(env.CFG_ETH_FROM, "") == "" ? "" : "default"
-  }
-
-  # WebAPI transport configuration. Enabled if CFG_WEBAPI_LISTEN_ADDR is set to a listen address.
-  dynamic "webapi" {
-    for_each = try(env.CFG_WEBAPI_LISTEN_ADDR, "") == "" ? [] : [1]
-    content {
-      feeds             = var.feeds
-      listen_addr       = try(env.CFG_WEBAPI_LISTEN_ADDR, "0.0.0.0.8080")
-      socks5_proxy_addr = try(env.CFG_WEBAPI_SOCKS5_PROXY_ADDR, "127.0.0.1:9050")
-
-      # Ethereum based address book. Enabled if CFG_WEBAPI_ETH_ADDR_BOOK is set to a contract address.
-      dynamic "ethereum_address_book" {
-        for_each = try(env.CFG_WEBAPI_ETH_ADDR_BOOK, "") == "" ? [] : [1]
-        content {
-          contract_addr   = try(env.CFG_WEBAPI_ETH_ADDR_BOOK, "")
-          ethereum_client = "default"
-        }
-      }
-
-      # Static address book. Enabled if CFG_WEBAPI_STATIC_ADDR_BOOK is set to a comma separated list of addresses.
-      dynamic "static_address_book" {
-        for_each = try(env.CFG_WEBAPI_STATIC_ADDR_BOOK, "") == "" ? [] : [1]
-        content {
-          addresses = try(split(env.CFG_WEBAPI_STATIC_ADDR_BOOK, ","), "")
-        }
-      }
-    }
   }
 }
 

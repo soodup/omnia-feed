@@ -62,66 +62,66 @@ services:
 #      - "./docker/ssb-server/config/relay_config.json:/root/.ssb/config"
 #      - "./docker/ssb-server/config/relay_secret:/root/.ssb/secret"
 
-  gofer:
-    container_name: gofer.local
-    image: oracle-suite-gofer:latest
-    volumes:
-      - "./gofer.json/config.json:/root/config.json"
-    ports:
-      - "9000:9000"
-    tty: true
-    stdin_open: true
-  #    command: [ "agent" ]
-
-  spire_feed:
-    image: upshot-spire
-    container_name: spire_feed.local
-    ports:
-      - "8101:8000"
-      - "9101:9100"
-    entrypoint: [ "/usr/local/bin/spire" ]
-    command: [ "agent", "-v", "info" ]
-    volumes:
-      - "./docker/keystore/1.json:/root/keystore/1.json"
-      - "./docker/keystore/pass:/root/keystore/password"
-      - "./docker/spire/config/feed_config.hcl:/root/config.hcl"
-    environment:
-      CFG_ETH_FROM: "0x2d800d93b065ce011af83f316cef9f0d005b0aa4"
-      CFG_ETH_KEYS: "/root/keystore"
-      CFG_ETH_PASS: "/root/keystore/password"
-      #      CFG_LIBP2P_PK_SEED: "d382e2b16d8a2e770dd8e0b65554a2ce7a072ac67d4ca6f34052771dfdcdac07"
-      #      CFG_LIBP2P_LISTEN_ADDRS: "/ip4/0.0.0.0/tcp/8101"
-      CFG_SPIRE_RPC_ADDR: "0.0.0.0:9101"
-#      CFG_FEEDS: "0x16655369eb59f3e1cafbcfac6d3dd4001328f747"
-
-  spire_relay:
-    image: upshot-spire
-    container_name: spire_relay.local
-    depends_on:
-      - spire_feed
-    ports:
-      - "8102:8000"
-      - "9102:9100"
-    entrypoint: [ "/usr/local/bin/spire" ]
-    command: [ "agent", "-v", "info" ]
-    volumes:
-      - "./docker/keystore/2.json:/root/keystore/2.json"
-      - "./docker/keystore/pass:/root/keystore/password"
-      - "./docker/spire/config/relay_config.hcl:/root/config.hcl"
-    environment:
-      CFG_ETH_FROM: "0xe3ced0f62f7eb2856d37bed128d2b195712d2644"
-      CFG_ETH_KEYS: "/root/keystore"
-      CFG_ETH_PASS: "/root/keystore/password"
-      #      CFG_LIBP2P_PK_SEED: "d382e2b16d8a2e770dd8e0b65554a2ce7a072ac67d4ca6f34052771dfdcdac07"
-      #      CFG_LIBP2P_LISTEN_ADDRS: "/ip4/0.0.0.0/tcp/8102"
-      CFG_SPIRE_RPC_ADDR: "0.0.0.0:9102"
-#      CFG_LIBP2P_BOOTSTRAP_ADDRS: "/dns/spire_feed.local/tcp/8101/p2p/12D3KooWNy4aQc58BtPcGkVRbbjonrF6NjLs37yab2rSRjeYn9Y2"
-  #      CFG_FEEDS: "0x1bb90cde8a032cb4963813a5b4db4981afa5b9c6,0xfadad77b3a7e5a84a1f7ded081e785585d4ffaf3,0x3980aa37f838bec2e457445d943feb3af98ff036"
+#  gofer:
+#    container_name: gofer.local
+#    image: oracle-suite-gofer:latest
+#    volumes:
+#      - "./gofer.json/config.json:/root/config.json"
+#    ports:
+#      - "9000:9000"
+#    tty: true
+#    stdin_open: true
+#  #    command: [ "agent" ]
+#
+#  spire_feed:
+#    image: upshot-spire
+#    container_name: spire_feed.local
+#    ports:
+#      - "8101:8000"
+#      - "9101:9100"
+#    entrypoint: [ "/usr/local/bin/spire" ]
+#    command: [ "agent", "-v", "info" ]
+#    volumes:
+#      - "./docker/keystore/1.json:/root/keystore/1.json"
+#      - "./docker/keystore/pass:/root/keystore/password"
+#      - "./docker/spire/config/feed_config.hcl:/root/config.hcl"
+#    environment:
+#      CFG_ETH_FROM: "0x2d800d93b065ce011af83f316cef9f0d005b0aa4"
+#      CFG_ETH_KEYS: "/root/keystore"
+#      CFG_ETH_PASS: "/root/keystore/password"
+#      #      CFG_LIBP2P_PK_SEED: "d382e2b16d8a2e770dd8e0b65554a2ce7a072ac67d4ca6f34052771dfdcdac07"
+#      #      CFG_LIBP2P_LISTEN_ADDRS: "/ip4/0.0.0.0/tcp/8101"
+#      CFG_SPIRE_RPC_ADDR: "0.0.0.0:9101"
+##      CFG_FEEDS: "0x16655369eb59f3e1cafbcfac6d3dd4001328f747"
+#
+#  spire_relay:
+#    image: upshot-spire
+#    container_name: spire_relay.local
+##    depends_on:
+##      - spire_feed
+#    ports:
+#      - "8102:8000"
+#      - "9102:9100"
+#    entrypoint: [ "/usr/local/bin/spire" ]
+#    command: [ "agent", "-v", "info" ]
+#    volumes:
+#      - "./docker/keystore/2.json:/root/keystore/2.json"
+#      - "./docker/keystore/pass:/root/keystore/password"
+#      - "./docker/spire/config/relay_config.hcl:/root/config.hcl"
+#    environment:
+#      CFG_ETH_FROM: "0xe3ced0f62f7eb2856d37bed128d2b195712d2644"
+#      CFG_ETH_KEYS: "/root/keystore"
+#      CFG_ETH_PASS: "/root/keystore/password"
+#      #      CFG_LIBP2P_PK_SEED: "d382e2b16d8a2e770dd8e0b65554a2ce7a072ac67d4ca6f34052771dfdcdac07"
+#      #      CFG_LIBP2P_LISTEN_ADDRS: "/ip4/0.0.0.0/tcp/8102"
+#      CFG_SPIRE_RPC_ADDR: "0.0.0.0:9102"
+##      CFG_LIBP2P_BOOTSTRAP_ADDRS: "/dns/spire_feed.local/tcp/8101/p2p/12D3KooWNy4aQc58BtPcGkVRbbjonrF6NjLs37yab2rSRjeYn9Y2"
+#  #      CFG_FEEDS: "0x1bb90cde8a032cb4963813a5b4db4981afa5b9c6,0xfadad77b3a7e5a84a1f7ded081e785585d4ffaf3,0x3980aa37f838bec2e457445d943feb3af98ff036"
 
   omnia_feed:
-    depends_on:
-      - gofer
-      - spire_feed
+#    depends_on:
+#      - gofer
+#      - spire_feed
 #      - ssb_server_feed
     image: upshot-omnia-feed
     build:
@@ -136,23 +136,23 @@ services:
       - "../version:/opt/omnia/version"
 
       - "./config/feed.json:/home/omnia/omnia.json"
-      - "./docker/spire/config/client.hcl:/home/omnia/spire.hcl"
+      - "./docker/spire/config/feed_config.hcl:/home/omnia/spire.hcl"
       - "./docker/gofer/client.hcl:/home/omnia/gofer.hcl"
 
       - "./docker/keystore/:/home/omnia/.ethereum/keystore/"
-      - "./docker/ssb-server/config/feed_config.json:/home/omnia/.ssb/config"
-      - "./docker/ssb-server/config/feed_secret/secret:/home/omnia/.ssb/secret"
-      - "./docker/ssb-server/config/secret.json:/home/omnia/secret.json"
-      - "./docker/ssb-server/config/ssb-config.json:/home/omnia/config.json"
+#      - "./docker/ssb-server/config/feed_config.json:/home/omnia/.ssb/config"
+#      - "./docker/ssb-server/config/feed_secret/secret:/home/omnia/.ssb/secret"
+#      - "./docker/ssb-server/config/secret.json:/home/omnia/secret.json"
+#      - "./docker/ssb-server/config/ssb-config.json:/home/omnia/config.json"
 
     environment:
-      SSB_KEYS: "/home/omnia/.ssb/secret"
-      SSB_CONF: "/home/omnia/.ssb/config"
-      SSB_HOST: "ssb-feed.local"
-      SSB_PORT: "8001"
+#      SSB_KEYS: "/home/omnia/.ssb/secret"
+#      SSB_CONF: "/home/omnia/.ssb/config"
+#      SSB_HOST: "ssb-feed.local"
+#      SSB_PORT: "8001"
       OMNIA_VERBOSE: "true"
       SPIRE_CONFIG: "/home/omnia/spire.hcl"
-      CFG_SPIRE_RPC_ADDR: "spire_feed.local:9101"
+      CFG_SPIRE_RPC_ADDR: "0.0.0.0:9101"
       GOFER_CONFIG: "/home/omnia/gofer.hcl"
       CFG_GOFER_RPC_ADDR: "gofer.local:9000"
       OMNIA_DEBUG: "true"

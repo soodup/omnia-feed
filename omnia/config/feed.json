@@ -8,11 +8,7 @@
   "options": {
     "interval": 60,
     "msgLimit": 35,
-    "srcTimeout": 10,
-    "setzerTimeout": 10,
-    "setzerCacheExpiry": 120,
-    "setzerMinMedian": 3,
-    "setzerEthRpcUrl": "http://geth.local:8545"
+    "srcTimeout": 10
   },
   "sources":["gofer"],
   "transports":["spire"],
