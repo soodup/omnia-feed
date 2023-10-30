@@ -16,7 +16,7 @@ Tools used to fetch prices from different configured sources like reservoir.
 - Responsibility is to pull prices from Gofer/Setzer, sign with private key and publish to transport layer (spire/ssb)
 ### Omnia relay 
 - Responsibility is to listen to new messages in the transport layer and include the pricing data and signatures in a single ethereum transaction and publish on chain)
-- This is now separated in a different repo here.
+- This is now separated in a different repo [here](https://github.com/soodup/omnia-relay/blob/master/omnia/docker-compose.yml).
 
 ![img.png](img.png)
 
@@ -41,7 +41,7 @@ Current docker-compose starts an omnia feed container which has gofer and spire-
 ****
 
 # How to Run
-1.) Change the tag/sha to build and run a specific source for omnia/spire/gofer in the `Dockerfile`
+1.) Check/Change the tag/sha to build and run a specific source for omnia/spire/gofer in the `Dockerfile`
 
 2.)  `docker-compose build` and `docker-compose up -d` (docker-compose.yml)
 
@@ -77,7 +77,8 @@ This will build from `Dockerfile` which downloads a specified tagged source from
 
 3.) Start the spire agent in the docker container terminal by -` spire agent -c '/home/omnia/spire.hcl'`
 
-#### This will send a sample price to the gossip network every 60 seconds. To run the omnia-relay container to receive this price please run it from here.
+#### This will send a sample price to the gossip network every 60 seconds. To run the omnia-relay container to receive this price please run it from [here](https://github.com/soodup/omnia-relay/blob/master/omnia/docker-compose.yml) 
+(`omnia-relay` container).
 ****
 
 

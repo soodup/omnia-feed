@@ -48,41 +48,14 @@ transport {
     priv_key_seed   = try(env.CFG_LIBP2P_PK_SEED, "")
     listen_addrs    = try(split(env.CFG_LIBP2P_LISTEN_ADDRS, ","), ["/ip4/0.0.0.0/tcp/8102"])
     bootstrap_addrs = try(split(env.CFG_LIBP2P_BOOTSTRAP_ADDRS, ","), [
-      "/dns/spire_feed.local/tcp/8101/p2p/12D3KooWNy4aQc58BtPcGkVRbbjonrF6NjLs37yab2rSRjeYn9Y2"
-#      "/dns/spire-bootstrap1.makerops.services/tcp/8000/p2p/12D3KooWRfYU5FaY9SmJcRD5Ku7c1XMBRqV6oM4nsnGQ1QRakSJi",
-#      "/dns/spire-bootstrap2.makerops.services/tcp/8000/p2p/12D3KooWBGqjW4LuHUoYZUhbWW1PnDVRUvUEpc4qgWE3Yg9z1MoR"
+#      "/dns/spire_feed.local/tcp/8101/p2p/12D3KooWNy4aQc58BtPcGkVRbbjonrF6NjLs37yab2rSRjeYn9Y2"
+      "/dns/spire-bootstrap1.makerops.services/tcp/8000/p2p/12D3KooWRfYU5FaY9SmJcRD5Ku7c1XMBRqV6oM4nsnGQ1QRakSJi",
+      "/dns/spire-bootstrap2.makerops.services/tcp/8000/p2p/12D3KooWBGqjW4LuHUoYZUhbWW1PnDVRUvUEpc4qgWE3Yg9z1MoR"
     ])
     direct_peers_addrs = try(split(env.CFG_LIBP2P_DIRECT_PEERS_ADDRS, ","), [])
     blocked_addrs      = try(split(env.CFG_LIBP2P_BLOCKED_ADDRS, ","), [])
     disable_discovery  = try(env.CFG_LIBP2P_DISABLE_DISCOVERY, "false") == "true"
     ethereum_key       = try(env.CFG_ETH_FROM, "") == "" ? "" : "default"
-  }
-
-  # WebAPI transport configuration. Enabled if CFG_WEBAPI_LISTEN_ADDR is set to a listen address.
-  dynamic "webapi" {
-    for_each = try(env.CFG_WEBAPI_LISTEN_ADDR, "") == "" ? [] : [1]
-    content {
-      feeds             = var.feeds
-      listen_addr       = try(env.CFG_WEBAPI_LISTEN_ADDR, "0.0.0.0.8080")
-      socks5_proxy_addr = try(env.CFG_WEBAPI_SOCKS5_PROXY_ADDR, "127.0.0.1:9050")
-
-      # Ethereum based address book. Enabled if CFG_WEBAPI_ETH_ADDR_BOOK is set to a contract address.
-      dynamic "ethereum_address_book" {
-        for_each = try(env.CFG_WEBAPI_ETH_ADDR_BOOK, "") == "" ? [] : [1]
-        content {
-          contract_addr   = try(env.CFG_WEBAPI_ETH_ADDR_BOOK, "")
-          ethereum_client = "default"
-        }
-      }
-
-      # Static address book. Enabled if CFG_WEBAPI_STATIC_ADDR_BOOK is set to a comma separated list of addresses.
-      dynamic "static_address_book" {
-        for_each = try(env.CFG_WEBAPI_STATIC_ADDR_BOOK, "") == "" ? [] : [1]
-        content {
-          addresses = try(split(env.CFG_WEBAPI_STATIC_ADDR_BOOK, ","), "")
-        }
-      }
-    }
   }
 }
 
