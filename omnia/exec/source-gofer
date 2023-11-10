@@ -5,56 +5,20 @@ if [[ -n $OMNIA_DEBUG ]]; then set -x; fi
 cd "$(cd "${0%/*/*}" && pwd)/lib"
 . ./log.sh
 
-_goferData='{
-    "type":"aggregator",
-    "base":"BTC",
-    "quote":"USD",
-    "price":45242.13,
-    "bid":45236.308,
-    "ask":45239.98,
-    "vol24h":0,
-    "ts":"2021-05-18T10:30:00Z",
-    "params":{
-       "method":"median",
-       "minimumSuccessfulSources":"3"
-    },
-    "prices":[
-       {
-          "type":"origin",
-          "base":"BTC",
-          "quote":"USD",
-          "price":45227.05,
-          "bid":45221.79,
-          "ask":45227.05,
-          "vol24h":8339.77051164,
-          "ts":"2021-05-18T10:31:16Z",
-          "params":{
-             "origin":"bitstamp"
-          }
-       },
-       {
-          "type":"origin",
-          "base":"BTC",
-          "quote":"USD",
-          "price":45242.13,
-          "bid":45236.308,
-          "ask":45240.468,
-          "vol24h":0,
-          "ts":"2021-05-18T10:31:18.687607Z",
-          "params":{
-             "origin":"bittrex"
-          }
-       }
-    ]
- }'
-jq -c '{
-    asset: (.base+"/"+.quote),
-    median: .price,
-    sources: (
-      [ ..
-      | select(type == "object" and .type == "origin" and .error == null)
-      | {(.base+"/"+.quote+"@"+.params.origin): (.price|tostring)}
-      ]
-      | add
-    )
+if _goferData="$(gofer price --config "$GOFER_CONFIG" --format ndjson "$1")"
+then
+	jq -c '{
+  	asset: (.base+"/"+.quote),
+  	median: .price,
+  	sources: (
+  		[ ..
+  		| select(type == "object" and .type == "origin" and .error == null)
+  		| {(.base+"/"+.quote+"@"+.params.origin): (.price|tostring)}
+  		]
+  		| add
+  	)
   }' <<<"$_goferData"
+else
+	error "could not get price" "$(jq -r '.error' <<<"$_goferData")" "asset=$1"
+	exit 1
+fi

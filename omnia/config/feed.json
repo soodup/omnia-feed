@@ -18,6 +18,7 @@
   "transports":["spire"],
   "pairs": {
     "BTC/USD":{"msgExpiration":300,"msgSpread":0.5},
+    "cryptopunks/appraisal":{"msgExpiration":300,"msgSpread":0.5},
     "ETH/USD":{"msgExpiration":300,"msgSpread":0.5}
   }
 }

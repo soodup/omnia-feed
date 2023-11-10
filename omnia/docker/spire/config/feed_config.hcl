@@ -66,6 +66,7 @@ spire {
   # List of pairs that are collected by the spire node. Other pairs are ignored.
   pairs = [
     "BTCUSD",
+    "cryptopunksappraisal",
     "ETHBTC",
     "ETHUSD"
   ]

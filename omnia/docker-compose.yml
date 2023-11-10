@@ -154,7 +154,7 @@ services:
       SPIRE_CONFIG: "/home/omnia/spire.hcl"
       CFG_SPIRE_RPC_ADDR: "0.0.0.0:9101"
       GOFER_CONFIG: "/home/omnia/gofer.hcl"
-      CFG_GOFER_RPC_ADDR: "gofer.local:9000"
+#      CFG_GOFER_RPC_ADDR: "0.0.0.0:9000"
       OMNIA_DEBUG: "true"
       CFG_ETH_FROM: "0x2d800d93b065ce011af83f316cef9f0d005b0aa4"
       CFG_ETH_KEYS: "/home/omnia/.ethereum/keystore"

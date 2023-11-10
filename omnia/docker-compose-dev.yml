@@ -66,12 +66,13 @@ services:
     container_name: gofer.local
     image: oracle-suite-gofer:latest
     volumes:
+      - "./docker/gofer/client.hcl:/home/omnia/gofer.hcl"
       - "./gofer.json/config.json:/root/config.json"
     ports:
       - "9000:9000"
     tty: true
     stdin_open: true
-  #    command: [ "agent" ]
+#    command: [ "agent" ]
 
   spire_feed:
     image: upshot-spire
