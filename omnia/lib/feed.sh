@@ -65,14 +65,7 @@ readSource() {
 						verbose --raw "source-$_src" "$(jq -sc <<<"$_data")"
 						echo "$_data"
 					else
-#						error "no data from source" "app=source-$_src" "asset=$_assetPair"
-            sample_value='{
-            	  "asset": "BTC/USD",
-            	  "median": "45000.00",
-            	  "sources": [{"BTC/USD@uniswap": "45000"}]
-            	}'
-     	      verbose --raw "source-$_src" "$sample_value"
-						echo "$sample_value"
+						error "no data from source" "app=source-$_src" "asset=$_assetPair"
 					fi
 				else
 					error "failed to get price" "app=source-$_src" "asset=$_assetPair"

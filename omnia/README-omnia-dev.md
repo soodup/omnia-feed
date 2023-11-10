@@ -30,6 +30,8 @@ Tools used to fetch prices from different configured sources like reservoir.
 
 2.) Start the spire agent in the docker container terminal by -` spire agent -c '/home/omnia/spire.hcl'`
 
+3.) Start the gofer agent in the docker container terminal by -` gofer agent -c '/home/omnia/gofer.hcl'`
+
 #### What happens exactly?
 Current docker-compose starts an omnia feed container which has gofer and spire-feed installed.
 
@@ -40,7 +42,7 @@ Current docker-compose starts an omnia feed container which has gofer and spire-
 
 ****
 
-# How to Run
+# Build and Run
 1.) Check/Change the tag/sha to build and run a specific source for omnia/spire/gofer in the `Dockerfile`
 
 2.)  `docker-compose build` and `docker-compose up -d` (docker-compose.yml)
@@ -77,7 +79,21 @@ This will build from `Dockerfile` which downloads a specified tagged source from
 
 3.) Start the spire agent in the docker container terminal by -` spire agent -c '/home/omnia/spire.hcl'`
 
-#### This will send a sample price to the gossip network every 60 seconds. To run the omnia-relay container to receive this price please run it from [here](https://github.com/soodup/omnia-relay/blob/master/omnia/docker-compose.yml) 
+or 
+
+```bash
+$ docker-compose -f docker-compose.yml exec -d omnia_feed sh -c "spire agent -c '/home/omnia/spire.hcl'"
+```
+
+
+4.) Start the gofer agent in the docker container terminal by -` gofer agent -c '/home/omnia/gofer.hcl'`
+
+or 
+```bash
+$ docker-compose -f docker-compose.yml exec -d omnia_feed sh -c "gofer agent -c '/home/omnia/gofer.hcl'"
+```
+
+#### This will send a sample price (cryptopunks appraisal) to the gossip network every 60 seconds. To run the omnia-relay container to receive this price and send on chain please run it from [here](https://github.com/soodup/omnia-relay/blob/master/omnia/docker-compose.yml) 
 (`omnia-relay` container).
 ****
 
