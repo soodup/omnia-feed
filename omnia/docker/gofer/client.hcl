@@ -34,23 +34,12 @@ ethereum {
 gofer {
   rpc_agent_addr = try(env.CFG_GOFER_RPC_ADDR, "127.0.0.1:9000")
   rpc_listen_addr = try(env.CFG_GOFER_RPC_ADDR, "127.0.0.1:9000")
-  origin "openexchangerates" {
-    type   = "openexchangerates"
-    params = {
-      api_key = try(env.GOFER_OPENEXCHANGERATES_API_KEY, "")
-    }
-  }
 
   origin "upshot" {
     type   = "upshot"
     params = {
       api_key = try(env.GOFER_UPSHOT_API_KEY, "UP-0d9ed54694abdac60fd23b74")
     }
-  }
-
-  price_model "ETH/USD" "median" {
-    source "ETH/USD" "origin" { origin = "openexchangerates" }
-    min_sources = 1
   }
 
   price_model "cryptopunks/appraisal" "median" {
