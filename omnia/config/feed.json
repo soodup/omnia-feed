@@ -17,6 +17,6 @@
   "sources":["gofer"],
   "transports":["spire"],
   "pairs": {
-    "cryptopunks/appraisal":{"msgExpiration":300,"msgSpread":0.5}
+    "cryptopunks/appraisal":{"msgExpiration":86400,"msgSpread":0.5}
   }
 }

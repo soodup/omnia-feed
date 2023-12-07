@@ -12,8 +12,8 @@ To deploy relay, please go to https://github.com/soodup/omnia-relay
 
 ```
 docker-compose up
-docker-compose -f docker-compose.yml exec -d omnia_feed sh -c "gofer agent -c '/home/omnia/gofer.hcl'”
-docker-compose -f docker-compose.yml exec -d omnia_feed sh -c "spire agent -c '/home/omnia/spire.hcl'”
+docker-compose -f docker-compose.yml exec -d omnia_feed sh -c "gofer agent -c '/home/omnia/gofer.hcl'"
+docker-compose -f docker-compose.yml exec -d omnia_feed sh -c "spire agent -c '/home/omnia/spire.hcl'"
 ```
 
 ## Config and Deployment
