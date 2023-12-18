@@ -1,4 +1,6 @@
 FROM alpine:3.16 as rust-builder
+RUN apk --no-cache add curl
+RUN apk add --no-cache bash
 ARG TARGETARCH
 
 ENV CARGO_NET_GIT_FETCH_WITH_CLI=true
@@ -10,10 +12,11 @@ RUN apk add clang lld curl build-base linux-headers git \
   && ./rustup.sh -y
 
 RUN [[ "$TARGETARCH" = "arm64" ]] && echo "export CFLAGS=-mno-outline-atomics" >> $HOME/.profile || true
+RUN echo "export CFLAGS=-mno-outline-atomics" >> $HOME/.profile
 
 WORKDIR /opt/foundry
 
-ARG CAST_REF="master"
+ARG CAST_REF="nightly-94518c20bf42c23e7b5d557190998abcfc05b7a7"
 RUN git clone https://github.com/foundry-rs/foundry.git . \
   && git checkout --quiet ${CAST_REF} 
 
