@@ -1,6 +1,4 @@
 FROM alpine:3.16 as rust-builder
-RUN apk --no-cache add curl
-RUN apk add --no-cache bash
 ARG TARGETARCH
 
 ENV CARGO_NET_GIT_FETCH_WITH_CLI=true
